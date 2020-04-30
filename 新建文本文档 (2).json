@@ -1,0 +1,112 @@
+{
+    "code": 1,
+    "msg": "处理成功！",
+    "data": {
+        "task_type": 3,
+        "topic_mode": 31,
+        "stem": {
+            "content": "crime",
+            "remark": [{
+                    "sen_marked": "the {crime} rate",
+                    "sen_cn": "犯罪率",
+                    "relation": "rate"
+                },
+                {
+                    "sen_marked": "commit a {crime}",
+                    "sen_cn": "犯罪",
+                    "relation": "commit"
+                },
+                {
+                    "sen_marked": "be accused of a {crime}",
+                    "sen_cn": "被指控有罪",
+                    "relation": "accused"
+                },
+                {
+                    "sen_marked": "be convicted of a {crime}",
+                    "sen_cn": "被定罪",
+                    "relation": "convicted"
+                },
+                {
+                    "sen_marked": "violent {crimes}",
+                    "sen_cn": "暴力犯罪",
+                    "relation": "violent"
+                }
+            ],
+            "ph_us_url": null,
+            "ph_en_url": null
+        },
+        "options": [{
+                "content": "commit",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 0,
+                "check_code": null,
+                "sub_options": null
+            },
+            {
+                "content": "convicted",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 1,
+                "check_code": null,
+                "sub_options": null
+            },
+            {
+                "content": "criminal",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 2,
+                "check_code": null,
+                "sub_options": null
+            },
+            {
+                "content": "accused",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 3,
+                "check_code": null,
+                "sub_options": null
+            },
+            {
+                "content": "clinical",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 4,
+                "check_code": null,
+                "sub_options": null
+            },
+            {
+                "content": "rate",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 5,
+                "check_code": null,
+                "sub_options": null
+            },
+            {
+                "content": "violent",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 6,
+                "check_code": null,
+                "sub_options": null
+            },
+            {
+                "content": "humble",
+                "remark": null,
+                "answer": null,
+                "answer_tag": 7,
+                "check_code": null,
+                "sub_options": null
+            }
+        ],
+        "answer_num": 3,
+        "chance_num": 5,
+        "topic_done_num": 50,
+        "topic_total": 108,
+        "tips": null,
+        "task_id": 7115485,
+        "topic_code": "kFRzdYVnwZJWXId4e4tsl2qRaJVaY1ibqKKjmoeQaWWNlWxqb45oXmdhYmiWmWlcl2VqbmhubmhkvWhjZ2RpZWthm8FiZ42YZY+Sv2GNjY1dZJeZbGKWZ29paGxsY5U=",
+        "answer_state": 1
+    }
+}

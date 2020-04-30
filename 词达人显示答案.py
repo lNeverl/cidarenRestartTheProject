@@ -1,61 +1,83 @@
+import requests#导入request模块
 import json
-import time
 import os
+import time
 import pyperclip#调用pyperclip模块
+import hashlib
+# 由于MD5模块在python3中被移除
+# 在python3中使用hashlib模块进行md5操作
+
+ans31mod=['null','null','null','null','null','null','null','null','null','null']
+delay=0#定义两个全局变量 后边有用
+lastans=0
+def readJsonfile():
+    a = json.load(open('c:\\cdr\\responseBody.txt', 'r', encoding='UTF-8'))  
+    return a
+
 while True:
-    f = open('c:\\cdr\\responseBody.txt', 'r', encoding='utf-8')
-    j = json.load(f)
-    #print(j['data']['options'])
-    if 'options' in j['data']:
-        answer3 = str(j['data']['topic_mode'])
-        if answer3 == '32':
-            print(j['data']['answer_content']['answer_str'])
-        
-        if answer3 == '43' or answer3 == '44':
-            lenth2=len(j['data']['options'])
-            
-            for i in range(0,lenth2):
-                answer4 = str(j['data']['options'][i]['answer'])
-                if answer4 == 'True':
-                    a=(j['data']['options'][i]['sub_options'])
-                    if a==None:
-                        print(j['data']['options'][i]['content'])
-                        
-                    else:
-                        lenth3=len(j['data']['options'][i]['sub_options'])
-                        for z in range(0,lenth3):
-                            answer5 = str(j['data']['options'][i]['sub_options'][z]['answer'])
-                            if answer5 == 'True':
-                                print(j['data']['options'][i]['content'])
-                                print(j['data']['options'][i]['sub_options'][z]['content'])
-                        
-                        
 
-        else:
+    a=readJsonfile()
+    if "topic_mode" in (a['data']) :
+        topic_mode = (a['data']['topic_mode'])
+    if "stem" in (a['data']) :
+        content = (a['data']['stem']['content'])
+        remark = (a['data']['stem']['remark'])
+    token = 'a9a37f2b6444902fbc469491c17fc260'
+    if "topic_mode" in (a['data']) :
+        if topic_mode == 31 :
+            lenth=len(a['data']['stem']['remark'])
+            for z in range(0,lenth):
+                the31mode = (a['data']['stem']['remark'][z]['relation'])
+                ans31mod[z]=the31mode
+            print(ans31mod)
+            lastans=ans31mod
+            i = os.system('cls')
+            time.sleep(0.01)
+        else :
+            print(delay)#解决从题库查题时候什么都不显示
+            if content == None :
+                content = 'null'
+            if remark == None :
+                remark='null'
+            # 待加密信息
+            imsign = str(topic_mode)+content+remark+token
+            # 创建md5对象
+            m = hashlib.md5()
+            # Tips
+            # 此处必须encode
+            # 若写法为m.update(str)  报错为： Unicode-objects must be encoded before hashing
+            # 因为python3里默认的str是unicode
+            # 或者 b = bytes(str, encoding='utf-8')，作用相同，都是encode为bytes
+            b = imsign.encode(encoding='utf-8')
+            m.update(b)
+            sign = m.hexdigest()
+            url = '隐藏了大佬的题库api   因为不是我的  我不方便公开'
+            payload= {"1":1,"1":1,"1":1,"1":"1","1":1}#值以字典的形式传入
+            requests.packages.urllib3.disable_warnings()
+            response = requests.post(url=url,data=payload,verify=False)
+            zidian=json.loads(response.text)
+            ans = (zidian['data'])
+            i = os.system('cls')#解决从题库查题时候什么都不显示
+            print(ans)
+            lastans=ans#把答案存在全局变量中 实现一会做错题出问题的时候显示上一个题的答案
+            delay=ans #解决从题库查题时候什么都不显示
+            if topic_mode == 51 or topic_mode == 52 or topic_mode == 53 or topic_mode == 54:
+                pyperclip.copy(zidian['data'])#复制答案到剪贴板
+                print(ans)
+                print('答案已经自动复制到剪切板啦，直接ctrl+v粘贴就好啦')
+                lastans=ans
+            time.sleep(1)
+            i = os.system('cls')
+    else :
+        i = os.system('cls')
+        print('好像有什么问题，别乱选啊，在做个题试试。')
+        print('刚才的答案是')
+        print(lastans)
+        time.sleep(1)
 
-            
-            lenth=len(j['data']['options'])
-
-            for i in range(0,lenth):
-                # print(j['data']['options'][i]['answer'])
-                answer = str(j['data']['options'][i]['answer'])
-                if answer == 'True':
-                    print(j['data']['options'][i]['content'])
-            if 'options' in j['data']:
-                lenth=len(j['data']['options'])
-                for i in range(0,lenth):
-                    answer4 = str(j['data']['topic_mode'])
-                    if answer4 == '43':
-                        print(j['data']['answer_content']['answer_str'])
-
-    
 
 
-    if 'answer_content' in j['data']:
-        if 'stem' in j['data']:
-            answer2 = str(j['data']['topic_mode'])
-            if answer2 == '51' or answer2 == '52' or answer2 == '53' or answer2 == '54':
-                print(j['data']['answer_content'])
-                pyperclip.copy(j['data']['answer_content'])#复制答案到剪贴板
-    time.sleep(0.1)
-    i = os.system('cls')
+
+
+
+
