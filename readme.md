@@ -12,7 +12,7 @@
 
 这样是为了使用微信自带的浏览器。
 
-# 文件下载点击[此处](https://gitee.com/lneverl/cidaren/releases)或者直接把整个仓库下载下来里面fiddler和exe都是一样的。
+# 文件下载点击[此处](https://github.com/lNeverl/cidarenRestartTheProject/releases)。
 
 1.打开fiddler：进入fiddler文件夹下，双击`Fiddler.exe`。打开软件之后。选择tools-options
 

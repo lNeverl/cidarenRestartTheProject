@@ -3,9 +3,7 @@ import json
 import os
 import time
 import pyperclip#调用pyperclip模块
-import hashlib
-# 由于MD5模块在python3中被移除
-# 在python3中使用hashlib模块进行md5操作
+
 
 ans31mod=['null','null','null','null','null','null','null','null','null','null']
 delay=0#定义两个全局变量 后边有用
@@ -39,19 +37,15 @@ while True:
                 content = 'null'
             if remark == None :
                 remark='null'
-            # 待加密信息
-            imsign = str(topic_mode)+content+remark+token
-            # 创建md5对象
-            m = hashlib.md5()
-            # Tips
-            # 此处必须encode
-            # 若写法为m.update(str)  报错为： Unicode-objects must be encoded before hashing
-            # 因为python3里默认的str是unicode
-            # 或者 b = bytes(str, encoding='utf-8')，作用相同，都是encode为bytes
-            b = imsign.encode(encoding='utf-8')
-            m.update(b)
-            sign = m.hexdigest()
-            url = '隐藏了大佬的题库api   因为不是我的  我不方便公开'
+
+
+
+                      #隐藏了加密方法
+
+
+
+
+            url = '隐藏了大佬的题库api'
             payload= {"1":1,"1":1,"1":1,"1":"1","1":1}#值以字典的形式传入
             requests.packages.urllib3.disable_warnings()
             response = requests.post(url=url,data=payload,verify=False)
