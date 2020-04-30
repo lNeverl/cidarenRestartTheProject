@@ -70,27 +70,27 @@ class Handlers
     // The following snippet demonstrates a custom-bound column for the Web Sessions list.
     // See http://fiddler2.com/r/?fiddlercolumns for more info
     /*
-      public static BindUIColumn("Method", 60)
-      function FillMethodColumn(oS: Session): String {
-         return oS.RequestMethod;
-      }
+    public static BindUIColumn("Method", 60)
+    function FillMethodColumn(oS: Session): String {
+    return oS.RequestMethod;
+    }
     */
 
     // The following snippet demonstrates how to create a custom tab that shows simple text
     /*
-       public BindUITab("Flags")
-       static function FlagsReport(arrSess: Session[]):String {
-        var oSB: System.Text.StringBuilder = new System.Text.StringBuilder();
-        for (var i:int = 0; i<arrSess.Length; i++)
-        {
-            oSB.AppendLine("SESSION FLAGS");
-            oSB.AppendFormat("{0}: {1}\n", arrSess[i].id, arrSess[i].fullUrl);
-            for(var sFlag in arrSess[i].oFlags)
-            {
-                oSB.AppendFormat("\t{0}:\t\t{1}\n", sFlag.Key, sFlag.Value);
-            }
-        }
-        return oSB.ToString();
+    public BindUITab("Flags")
+    static function FlagsReport(arrSess: Session[]):String {
+    var oSB: System.Text.StringBuilder = new System.Text.StringBuilder();
+    for (var i:int = 0; i<arrSess.Length; i++)
+    {
+    oSB.AppendLine("SESSION FLAGS");
+    oSB.AppendFormat("{0}: {1}\n", arrSess[i].id, arrSess[i].fullUrl);
+    for(var sFlag in arrSess[i].oFlags)
+    {
+    oSB.AppendFormat("\t{0}:\t\t{1}\n", sFlag.Key, sFlag.Value);
+    }
+    }
+    return oSB.ToString();
     }
     */
 
@@ -101,7 +101,7 @@ class Handlers
     QuickLinkItem("FiddlerCore", "http://fiddler2.com/fiddlercore")
     public static function DoLinksMenu(sText: String, sAction: String)
     {
-        Utilities.LaunchHyperlink(sAction);
+    Utilities.LaunchHyperlink(sAction);
     }
     */
 
@@ -257,12 +257,12 @@ class Handlers
     // for one useful thing you can do with this handler.
     //
     // Note: oSession.requestBodyBytes is not available within this function!
-/*
+    /*
     static function OnPeekAtRequestHeaders(oSession: Session) {
-        var sProc = ("" + oSession["x-ProcessInfo"]).ToLower();
-        if (!sProc.StartsWith("mylowercaseappname")) oSession["ui-hide"] = "NotMyApp";
+    var sProc = ("" + oSession["x-ProcessInfo"]).ToLower();
+    if (!sProc.StartsWith("mylowercaseappname")) oSession["ui-hide"] = "NotMyApp";
     }
-*/
+    */
 
     //
     // If a given session has response streaming enabled, then the OnBeforeResponse function 
@@ -295,20 +295,12 @@ class Handlers
     }
 
     static function OnBeforeResponse(oSession: Session) {
-        if(oSession.uriContains("https://wap.vocabgo.com/Student/ClassTask/SubmitAnswer")){
+        if(oSession.uriContains("https://gateway.vocabgo.com/Student")){
             oSession.utilDecodeResponse();
             oSession.SaveResponse("c:/cdr/response.txt",true);
             oSession.SaveResponseBody("c:/cdr/responseBody.txt");
         }
-        if(oSession.uriContains("https://wap.vocabgo.com/Student/StudyTask/SubmitAnswer")){
-            oSession.utilDecodeResponse();
-            oSession.SaveResponse("c:/cdr/response.txt",true);
-            oSession.SaveResponseBody("c:/cdr/responseBody.txt");
-        }
-        
-        
-        
-        
+     
         
         
         
@@ -382,7 +374,7 @@ class Handlers
     static function Main() {
         var today: Date = new Date();
         FiddlerObject.StatusText = " CustomRules.js was loaded at: " + today;
-
+        FiddlerObject.UI.lvSessions.AddBoundColumn("ServerIP", 120, "X-HostIP");
         // Uncomment to add a "Server" column containing the response "Server" header, if present
         // UI.lvSessions.AddBoundColumn("Server", 50, "@response.server");
 
@@ -415,114 +407,114 @@ class Handlers
 
         var sAction = sParams[0].toLowerCase();
         switch (sAction) {
-        case "bold":
-            if (sParams.Length<2) {uiBoldURI=null; FiddlerObject.StatusText="Bolding cleared"; return false;}
-            uiBoldURI = sParams[1]; FiddlerObject.StatusText="Bolding requests for " + uiBoldURI;
-            return true;
-        case "bp":
-            FiddlerObject.alert("bpu = breakpoint request for uri\nbpm = breakpoint request method\nbps=breakpoint response status\nbpafter = breakpoint response for URI");
-            return true;
-        case "bps":
-            if (sParams.Length<2) {bpStatus=-1; FiddlerObject.StatusText="Response Status breakpoint cleared"; return false;}
-            bpStatus = parseInt(sParams[1]); FiddlerObject.StatusText="Response status breakpoint for " + sParams[1];
-            return true;
-        case "bpv":
-        case "bpm":
-            if (sParams.Length<2) {bpMethod=null; FiddlerObject.StatusText="Request Method breakpoint cleared"; return false;}
-            bpMethod = sParams[1].toUpperCase(); FiddlerObject.StatusText="Request Method breakpoint for " + bpMethod;
-            return true;
-        case "bpu":
-            if (sParams.Length<2) {bpRequestURI=null; FiddlerObject.StatusText="RequestURI breakpoint cleared"; return false;}
-            bpRequestURI = sParams[1]; 
-            FiddlerObject.StatusText="RequestURI breakpoint for "+sParams[1];
-            return true;
-        case "bpa":
-        case "bpafter":
-            if (sParams.Length<2) {bpResponseURI=null; FiddlerObject.StatusText="ResponseURI breakpoint cleared"; return false;}
-            bpResponseURI = sParams[1]; 
-            FiddlerObject.StatusText="ResponseURI breakpoint for "+sParams[1];
-            return true;
-        case "overridehost":
-            if (sParams.Length<3) {gs_OverridenHost=null; FiddlerObject.StatusText="Host Override cleared"; return false;}
-            gs_OverridenHost = sParams[1].toLowerCase();
-            gs_OverrideHostWith = sParams[2];
-            FiddlerObject.StatusText="Connecting to [" + gs_OverrideHostWith + "] for requests to [" + gs_OverridenHost + "]";
-            return true;
-        case "urlreplace":
-            if (sParams.Length<3) {gs_ReplaceToken=null; FiddlerObject.StatusText="URL Replacement cleared"; return false;}
-            gs_ReplaceToken = sParams[1];
-            gs_ReplaceTokenWith = sParams[2].Replace(" ", "%20");  // Simple helper
-            FiddlerObject.StatusText="Replacing [" + gs_ReplaceToken + "] in URIs with [" + gs_ReplaceTokenWith + "]";
-            return true;
-        case "allbut":
-        case "keeponly":
-            if (sParams.Length<2) { FiddlerObject.StatusText="Please specify Content-Type to retain during wipe."; return false;}
-            UI.actSelectSessionsWithResponseHeaderValue("Content-Type", sParams[1]);
-            UI.actRemoveUnselectedSessions();
-            UI.lvSessions.SelectedItems.Clear();
-            FiddlerObject.StatusText="Removed all but Content-Type: " + sParams[1];
-            return true;
-        case "stop":
-            UI.actDetachProxy();
-            return true;
-        case "start":
-            UI.actAttachProxy();
-            return true;
-        case "cls":
-        case "clear":
-            UI.actRemoveAllSessions();
-            return true;
-        case "g":
-        case "go":
-            UI.actResumeAllSessions();
-            return true;
-        case "goto":
-            if (sParams.Length != 2) return false;
-            Utilities.LaunchHyperlink("http://www.google.com/search?hl=en&btnI=I%27m+Feeling+Lucky&q=" + Utilities.UrlEncode(sParams[1]));
-            return true;
-        case "help":
-            Utilities.LaunchHyperlink("http://fiddler2.com/r/?quickexec");
-            return true;
-        case "hide":
-            UI.actMinimizeToTray();
-            return true;
-        case "log":
-            FiddlerApplication.Log.LogString((sParams.Length<2) ? "User couldn't think of anything to say..." : sParams[1]);
-            return true;
-        case "nuke":
-            UI.actClearWinINETCache();
-            UI.actClearWinINETCookies(); 
-            return true;
-        case "screenshot":
-            UI.actCaptureScreenshot(false);
-            return true;
-        case "show":
-            UI.actRestoreWindow();
-            return true;
-        case "tail":
-            if (sParams.Length<2) { FiddlerObject.StatusText="Please specify # of sessions to trim the session list to."; return false;}
-            UI.TrimSessionList(int.Parse(sParams[1]));
-            return true;
-        case "quit":
-            UI.actExit();
-            return true;
-        case "dump":
-            UI.actSelectAll();
-            UI.actSaveSessionsToZip(CONFIG.GetPath("Captures") + "dump.saz");
-            UI.actRemoveAllSessions();
-            FiddlerObject.StatusText = "Dumped all sessions to " + CONFIG.GetPath("Captures") + "dump.saz";
-            return true;
-
-        default:
-            if (sAction.StartsWith("http") || sAction.StartsWith("www.")) {
-                System.Diagnostics.Process.Start(sParams[0]);
+            case "bold":
+                if (sParams.Length<2) {uiBoldURI=null; FiddlerObject.StatusText="Bolding cleared"; return false;}
+                uiBoldURI = sParams[1]; FiddlerObject.StatusText="Bolding requests for " + uiBoldURI;
                 return true;
-            }
-            else
-            {
-                FiddlerObject.StatusText = "Requested ExecAction: '" + sAction + "' not found. Type HELP to learn more.";
-                return false;
-            }
+            case "bp":
+                FiddlerObject.alert("bpu = breakpoint request for uri\nbpm = breakpoint request method\nbps=breakpoint response status\nbpafter = breakpoint response for URI");
+                return true;
+            case "bps":
+                if (sParams.Length<2) {bpStatus=-1; FiddlerObject.StatusText="Response Status breakpoint cleared"; return false;}
+                bpStatus = parseInt(sParams[1]); FiddlerObject.StatusText="Response status breakpoint for " + sParams[1];
+                return true;
+            case "bpv":
+            case "bpm":
+                if (sParams.Length<2) {bpMethod=null; FiddlerObject.StatusText="Request Method breakpoint cleared"; return false;}
+                bpMethod = sParams[1].toUpperCase(); FiddlerObject.StatusText="Request Method breakpoint for " + bpMethod;
+                return true;
+            case "bpu":
+                if (sParams.Length<2) {bpRequestURI=null; FiddlerObject.StatusText="RequestURI breakpoint cleared"; return false;}
+                bpRequestURI = sParams[1]; 
+                FiddlerObject.StatusText="RequestURI breakpoint for "+sParams[1];
+                return true;
+            case "bpa":
+            case "bpafter":
+                if (sParams.Length<2) {bpResponseURI=null; FiddlerObject.StatusText="ResponseURI breakpoint cleared"; return false;}
+                bpResponseURI = sParams[1]; 
+                FiddlerObject.StatusText="ResponseURI breakpoint for "+sParams[1];
+                return true;
+            case "overridehost":
+                if (sParams.Length<3) {gs_OverridenHost=null; FiddlerObject.StatusText="Host Override cleared"; return false;}
+                gs_OverridenHost = sParams[1].toLowerCase();
+                gs_OverrideHostWith = sParams[2];
+                FiddlerObject.StatusText="Connecting to [" + gs_OverrideHostWith + "] for requests to [" + gs_OverridenHost + "]";
+                return true;
+            case "urlreplace":
+                if (sParams.Length<3) {gs_ReplaceToken=null; FiddlerObject.StatusText="URL Replacement cleared"; return false;}
+                gs_ReplaceToken = sParams[1];
+                gs_ReplaceTokenWith = sParams[2].Replace(" ", "%20");  // Simple helper
+                FiddlerObject.StatusText="Replacing [" + gs_ReplaceToken + "] in URIs with [" + gs_ReplaceTokenWith + "]";
+                return true;
+            case "allbut":
+            case "keeponly":
+                if (sParams.Length<2) { FiddlerObject.StatusText="Please specify Content-Type to retain during wipe."; return false;}
+                UI.actSelectSessionsWithResponseHeaderValue("Content-Type", sParams[1]);
+                UI.actRemoveUnselectedSessions();
+                UI.lvSessions.SelectedItems.Clear();
+                FiddlerObject.StatusText="Removed all but Content-Type: " + sParams[1];
+                return true;
+            case "stop":
+                UI.actDetachProxy();
+                return true;
+            case "start":
+                UI.actAttachProxy();
+                return true;
+            case "cls":
+            case "clear":
+                UI.actRemoveAllSessions();
+                return true;
+            case "g":
+            case "go":
+                UI.actResumeAllSessions();
+                return true;
+            case "goto":
+                if (sParams.Length != 2) return false;
+                Utilities.LaunchHyperlink("http://www.google.com/search?hl=en&btnI=I%27m+Feeling+Lucky&q=" + Utilities.UrlEncode(sParams[1]));
+                return true;
+            case "help":
+                Utilities.LaunchHyperlink("http://fiddler2.com/r/?quickexec");
+                return true;
+            case "hide":
+                UI.actMinimizeToTray();
+                return true;
+            case "log":
+                FiddlerApplication.Log.LogString((sParams.Length<2) ? "User couldn't think of anything to say..." : sParams[1]);
+                return true;
+            case "nuke":
+                UI.actClearWinINETCache();
+                UI.actClearWinINETCookies(); 
+                return true;
+            case "screenshot":
+                UI.actCaptureScreenshot(false);
+                return true;
+            case "show":
+                UI.actRestoreWindow();
+                return true;
+            case "tail":
+                if (sParams.Length<2) { FiddlerObject.StatusText="Please specify # of sessions to trim the session list to."; return false;}
+                UI.TrimSessionList(int.Parse(sParams[1]));
+                return true;
+            case "quit":
+                UI.actExit();
+                return true;
+            case "dump":
+                UI.actSelectAll();
+                UI.actSaveSessionsToZip(CONFIG.GetPath("Captures") + "dump.saz");
+                UI.actRemoveAllSessions();
+                FiddlerObject.StatusText = "Dumped all sessions to " + CONFIG.GetPath("Captures") + "dump.saz";
+                return true;
+
+            default:
+                if (sAction.StartsWith("http") || sAction.StartsWith("www.")) {
+                    System.Diagnostics.Process.Start(sParams[0]);
+                    return true;
+                }
+                else
+                {
+                    FiddlerObject.StatusText = "Requested ExecAction: '" + sAction + "' not found. Type HELP to learn more.";
+                    return false;
+                }
         }
     }
 }
