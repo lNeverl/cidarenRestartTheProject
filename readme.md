@@ -555,9 +555,9 @@ class Handlers
 
 ![](https://gitee.com/lNeverl/pic/raw/master/20200411094418.png)
 双击框住的部分。可以看到右边已经出现解包的信息了，
-# 这里看不到答案不过没关系 用软件就行了。
+# 这里看不到答案显示null不过没关系 用软件就行了。
 ![](https://gitee.com/lNeverl/pic/raw/master/20200411094928.png)
 
-## 在这里看到正确答案一定要先自己做一个题，然后在打开`答案打印.exe`
+## 来到做题界面准备选择题目了刷新一下，然后在打开`答案打印.exe`
 此时答案打印已经可以正常工作。
 ![](https://gitee.com/lNeverl/pic/raw/master/20200411095454.png)
